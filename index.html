@@ -310,8 +310,8 @@ footer .logo .t1{color:var(--white)}
 .small-box .inner{padding:36px 30px}
 
 /* toast */
-.toast{position:fixed;left:50%;bottom:30px;transform:translate(-50%,120px);background:var(--ink);color:var(--white);padding:14px 22px;border-radius:14px;z-index:200;transition:.4s;display:flex;gap:10px;align-items:center;box-shadow:var(--shadow);max-width:calc(100% - 32px)}
-.toast.show{transform:translate(-50%,0)}
+.toast{position:fixed;left:50%;bottom:30px;transform:translate(-50%,120px);background:var(--ink);color:var(--white);padding:14px 22px;border-radius:14px;z-index:200;transition:.4s;display:flex;gap:10px;align-items:center;box-shadow:var(--shadow);max-width:calc(100% - 32px);opacity:0;visibility:hidden}
+.toast.show{transform:translate(-50%,0);opacity:1;visibility:visible}
 .toast .ico{color:var(--gold2)}
 
 /* admin */
@@ -365,7 +365,7 @@ td img{width:64px;height:48px;object-fit:cover;border-radius:8px;background:var(
 @media (max-width:880px){
   .menu,.nav-cta .btn-line,.topbar .hide-m{display:none}
   .burger{display:flex}
-  .drawer{display:block;position:fixed;inset:76px 0 auto;background:var(--paper);border-bottom:1px solid var(--line);z-index:49;transform:translateY(-120%);transition:.35s;padding:12px 16px 20px}
+  .drawer{display:block;position:fixed;top:112px;left:0;right:0;background:var(--paper);border-bottom:1px solid var(--line);z-index:49;transform:translateY(-120%);transition:.35s;padding:12px 16px 20px}
   .drawer.open{transform:none}
   .drawer a{display:block;padding:14px 4px;border-bottom:1px solid var(--line);font-weight:500;font-size:1.05rem}
   .hero-grid,.why-grid,.tools,.faq-grid,.contact-grid,.m-grid{grid-template-columns:1fr}
@@ -932,7 +932,8 @@ function emi(){const P=+$('#rAmt').value,R=+$('#rRate').value/1200,N=+$('#rYrs')
 ['#rAmt','#rRate','#rYrs'].forEach(s=>$(s).addEventListener('input',emi));emi();
 
 /* ---- nav ---- */
-$('#burger').addEventListener('click',()=>$('#drawer').classList.toggle('open'));
+$('#burger').addEventListener('click',()=>{const d=$('#drawer');d.style.top=Math.max(0,$('header.nav').getBoundingClientRect().bottom)+'px';d.classList.toggle('open')});
+window.addEventListener('scroll',()=>{const d=$('#drawer');if(d.classList.contains('open'))d.style.top=Math.max(0,$('header.nav').getBoundingClientRect().bottom)+'px'},{passive:true});
 $$('#drawer a').forEach(a=>a.addEventListener('click',()=>$('#drawer').classList.remove('open')));
 const today=new Date().toISOString().split('T')[0];$$('input[type=date]').forEach(i=>i.min=today);
 
